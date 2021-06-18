@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX</title>
+    <style>
+        #top{
+            text-align: center;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            color: white;
+        }
+        #drop{
+           text-align: center;
+            justify-content: center;
+            color:black;
+            width: 400px;
+            background-color:white;
+            margin-top: 10px;
+            padding: 8px;
+            
+        }
+        .container{
+            justify-content: center;
+        }
+        .wrapper{
+            position: absolute;
+            border-radius: 7px;
+            box-shadow: 4px 4px 4px;
+            box-shadow:darkgreen;
+            top: 23%;
+            left: 38%;
+            max-width: 250px;
+            width: 100%;
+            max-height: 350px;
+            background:whitesmoke;
+            padding: 0px;
+            margin: 10px auto;
+        }
+        .wrapper .tab{
+            justify-content: center;
+            padding: 0px;
+          
+        }
+        #temp{
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: xx-large;
+        }
+        #city{
+            font-family:Arial, Helvetica, sans-serif;
+            font-size:larger;
+            text-align:justify;
+            text-align: center;
+        }
+        #weather{
+            text-align: center;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            
+        }
+        #myimg{
+            justify-content: center;
+            border-radius: 60%;
+            display: ;
+        }
+        #Humidity{
+            text-align: center;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        .cen{
+            display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 28%;
+        }
+.bdy{
+    background: url(imgs/jason-blackeye-ap3LXI0fPJY-unsplash.jpg);
+    background-size: 1275px 600px;
+            background-repeat: no-repeat;
+}
+    </style>
+    <script>
+        // create a request
+        document.getElementById('myimg').style.display='none';
+        function callme(city){
+        var request = new XMLHttpRequest();
+        request.open("GET","https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=93f26e3c57081a6210de53b8dcfdfea4",true);
+        request.onload =  function(){
+            if( request.status>=200 && request.status<400){
+                var data = JSON.parse(request.responseText);
+                console.log(data);
+                document.getElementById('city').innerHTML=data.name;
+                document.getElementById('temp').innerHTML = (((data.main.temp-273.15).toFixed(2))+"&#8451;");
+               document.getElementById('weather').innerHTML = data.weather[0].description;
+                document.getElementById('Humidity').innerHTML="Humidity : "+data.main.humidity+"%";
+                var icon = data.weather[0].icon+".png";
+                document.getElementById('myimg').src = "https://openweathermap.org/img/w/"+icon ;
+            }
+            else {
+                console.log("some error");
+            }
+        };
+        request.onerror = function(){
+            console.log("connection error");
+        };
+       request.send();
+    };
+       
+       
+        // response
+        //parse the response
+        //manage error
+        // send the request
+    </script>
+
+
+
+</head>
+<body class="bdy">
+    
+
+    <h2 id="top">WEATHER</h2>
+    
+    <select name="select" id="drop" onclick="callme(this.value)">
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Warangal">Warangal</option>
+        <option value="Kolkata">Kolkata</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Shimla">Shimla</option>
+        <option value="Jaipur">Jaipur</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Bengaluru">Bengaluru</option>
+        <option value="Patna">Patna</option>
+        <option value="Gangtok">Gangtok</option>
+        <option value="Lucknow">Lucknow</option>
+    </select>
+    <div class="wrapper">
+        
+        <div class="row"justify-content-center>
+            <div class="col-sm">
+                <h5 id="city"></h5>
+    <h3 id="temp"></h3>
+</div>
+</div>
+<img id="myimg" src="imgs/jason-blackeye-ap3LXI0fPJY-unsplash.jpg" alt="weatherimg" class="cen">
+<h3 id="weather"></h3>
+<div class="col-sm">
+<h5 id="Humidity"><p>weather forecast here !</p>
+    <p>Please Select a city from the dropdown</p></h2>
+
+
+
+    
+    
+</div>
+
+
+</body>
+</html>
